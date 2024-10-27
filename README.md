@@ -6,7 +6,7 @@
 
 This project employs a two-tier architecture with microservices. The application consists of the following main components:
 
-1. **Frontend Service**: Handles user requests and communicates with backend services.
+1. **Frontend Service**: Handles user requests and communicates with backend services(I use postman).
 2. **Catalog Service**: Manages the book inventory, including book information and stock.
 3. **Order Service**: Processes purchase requests and maintains order details.
 
@@ -44,7 +44,7 @@ The application uses a microservices architecture:
 
 ### Catalog Service
 
-1. **GET** `/search/:topic` - Returns a list of books belonging to a specific topic.
+1. **GET** `catalog/search/:topic` - Returns a list of books belonging to a specific topic.
     ```json
     [
       {
@@ -58,7 +58,7 @@ The application uses a microservices architecture:
     ]
     ```
 
-2. **GET** `/info/:itemNumber` - Returns detailed information for a specific book.
+2. **GET** `catalog/info/:itemNumber` - Returns detailed information for a specific book.
     ```json
     {
       "title": "RPCs for Noobs",
@@ -67,15 +67,28 @@ The application uses a microservices architecture:
     }
     ```
 
-3. **PUT** `/update/:itemNumber` - Updates the cost or quantity of a book in stock (requires JSON body).
+3. **PUT** `catalog/update/:itemNumber` - Updates the cost or quantity of a book in stock (requires JSON body).
 
 ### Order Service
 
-1. **POST** `/purchase/:itemNumber` - Purchases a book, decreasing stock by the quantity ordered.
+1. **POST** `order/purchase/:id` - Purchases a book by decreasing its stock by one. 
+    - Validates if the book is in stock before proceeding.
+    - Records the purchase in the `Order` table.
     ```json
     {
-      "status": "Success",
-      "message": "Bought book RPCs for Noobs"
+      "message": "Book purchased successfully",
+      "order": {
+        "bookId": 1,
+        "quantity": 1
+      }
+    }
+    ```
+
+2. **PUT** `order/update-stock/:id` - Updates the stock of a specific book. 
+    - Uses a helper function to update the book's stock in the catalog.
+    ```json
+    {
+      "message": "Book stock updated successfully"
     }
     ```
 
@@ -96,10 +109,8 @@ The application uses a microservices architecture:
 | Column      | Type    | Description                       |
 |-------------|---------|-----------------------------------|
 | id          | INTEGER | Primary key for each order        |
-| book_id     | INTEGER | ID of the purchased book          |
+| bookId      | INTEGER | ID of the purchased book          |
 | quantity    | INTEGER | Quantity of the book ordered      |
-| total_price | REAL    | Total price of the order          |
-| created_at  | DATETIME| Timestamp of the order            |
 
 ## Installation & Setup
 
