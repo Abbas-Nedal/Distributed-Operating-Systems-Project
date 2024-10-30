@@ -6,7 +6,7 @@
 
 This project employs a two-tier architecture with microservices. The application consists of the following main components:
 
-1. **Frontend Service**: Handles user requests and communicates with backend services(I use postman).
+1. **Frontend Service**: Handles user requests and communicates with backend services (I use Postman for testing).
 2. **Catalog Service**: Manages the book inventory, including book information and stock.
 3. **Order Service**: Processes purchase requests and maintains order details.
 
@@ -22,6 +22,7 @@ This project employs a two-tier architecture with microservices. The application
 - **Sequelize ORM** for database management
 - **SQLite** as a lightweight database
 - **MVC Pattern** for code organization
+- **Docker** for containerization and environment management
 - RESTful API design for communication
 
 ## Architecture Overview
@@ -29,16 +30,16 @@ This project employs a two-tier architecture with microservices. The application
 The application uses a microservices architecture:
 
 - **Frontend Service**:
-  - Handles requests from clients.
-  - Communicates with Catalog and Order services using REST API calls.
-  
+    - Handles requests from clients.
+    - Communicates with Catalog and Order services using REST API calls.
+
 - **Catalog Service**:
-  - Manages books, stock, and categories.
-  - Supports search, info, and updates for books.
+    - Manages books, stock, and categories.
+    - Supports search, info, and updates for books.
 
 - **Order Service**:
-  - Processes purchase requests.
-  - Verifies stock availability and updates the book inventory.
+    - Processes purchase requests.
+    - Verifies stock availability and updates the book inventory.
 
 ## REST API Endpoints
 
@@ -71,7 +72,7 @@ The application uses a microservices architecture:
 
 ### Order Service
 
-1. **POST** `order/purchase/:id` - Purchases a book by decreasing its stock by one. 
+1. **POST** `order/purchase/:id` - Purchases a book by decreasing its stock by one.
     - Validates if the book is in stock before proceeding.
     - Records the purchase in the `Order` table.
     ```json
@@ -84,7 +85,7 @@ The application uses a microservices architecture:
     }
     ```
 
-2. **PUT** `order/update-stock/:id` - Updates the stock of a specific book. 
+2. **PUT** `order/update-stock/:id` - Updates the stock of a specific book.
     - Uses a helper function to update the book's stock in the catalog.
     ```json
     {
