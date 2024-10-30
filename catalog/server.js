@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const catalogRoutes = require('./routes/catalogRoutes');
 const sequelize = require('./database');
 
+
 // Initialize the server
 const app = express();
 app.use(bodyParser.json());
