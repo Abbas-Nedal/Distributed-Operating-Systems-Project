@@ -17,7 +17,7 @@ const purchaseBook = async (req, res) => {
 
 
             const order = await Order.create({ bookId, quantity: 1 });
-
++
             await updateBookStockHelper(bookId, book.quantity - 1);
 
             res.json({ message: 'Book purchased successfully', order });

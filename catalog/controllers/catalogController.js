@@ -58,9 +58,27 @@ const updateBookStock = async (req, res) => {
     }
 };
 
+
+const deleteBook = async (req, res) => {
+    try {
+        const bookId = req.params.id;
+
+        const book = await Book.findByPk(bookId);
+        if (book) {
+            await book.destroy();
+            res.json({ message: 'Book deleted successfully' });
+        } else {
+            res.status(404).json({ error: 'Book not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 module.exports = {
     search,
     BookInfo,
     addBook,
     updateBookStock,
+    deleteBook,
 };
