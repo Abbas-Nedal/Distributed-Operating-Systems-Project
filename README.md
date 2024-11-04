@@ -15,6 +15,8 @@ This project employs a two-tier architecture with microservices. The application
 - **Search**: Search for books by topic and view available options.
 - **Info**: Get detailed information about a specific book, such as stock and price.
 - **Purchase**: Purchase a book and update stock accordingly.
+- **API Documentation**: Comprehensive, interactive API documentation using Swagger UI.
+  .
 
 ## Technologies Used
 
@@ -23,6 +25,7 @@ This project employs a two-tier architecture with microservices. The application
 - **SQLite** as a lightweight database
 - **MVC Pattern** for code organization
 - **Docker** for containerization and environment management
+- **Swagger UI**   for API documentation
 - RESTful API design for communication
 
 ## Architecture Overview

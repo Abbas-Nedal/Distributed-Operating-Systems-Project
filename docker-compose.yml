@@ -5,12 +5,12 @@ services:
     build:
       context: ./catalog
     ports:
-      - "5050:3001"
+      - "3001:3001"
     container_name: catalog_service
 
   order_api:
     build:
       context: ./order
     ports:
-      - "5060:3002"
+      - "3002:3002"
     container_name: order_service
