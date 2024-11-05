@@ -3,14 +3,14 @@ version: '3'
 services:
   catalog_api:
     build:
-      context: ./catalog
+      context: catalog
     ports:
       - "3001:3001"
     container_name: catalog_service
 
   order_api:
     build:
-      context: ./order
+      context: order
     ports:
       - "3002:3002"
     container_name: order_service

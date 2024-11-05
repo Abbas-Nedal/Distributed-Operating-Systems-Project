@@ -15,7 +15,7 @@ sequelize.authenticate()
     .then(() => console.log('Order DB connected'))
     .catch((err) => console.error('Unable to connect to the DB:', err));
 
-const PORT = 3002;
+const PORT = 3004;
 app.listen(PORT, () => {
     console.log(`Order service running on port ${PORT}`);
     console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
