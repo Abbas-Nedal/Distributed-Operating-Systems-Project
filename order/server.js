@@ -6,7 +6,12 @@ const sequelize = require('./database');
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./swagger-order-output.json');
 
+
+
+
+
 const app = express();
+app.use(express.json());
 app.use(bodyParser.json());
 app.use('/order', orderRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));

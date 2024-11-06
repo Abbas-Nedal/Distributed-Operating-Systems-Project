@@ -40,23 +40,23 @@ const addBook = async (req, res) => {
     }
 };
 
-const updateBookStock = async (req, res) => {
-    try {
-        const bookId = req.params.id;
-        const { quantity } = req.body;
-
-        const book = await Book.findByPk(bookId);
-        if (book) {
-            book.quantity = quantity;
-            await book.save();
-            res.json({ message: 'Book stock updated successfully', book });
-        } else {
-            res.status(404).json({ error: 'Book not found' });
-        }
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
+// const updateBookStock = async (req, res) => {
+//     try {
+//         const bookId = req.params.id;
+//         const { quantity } = req.body;
+//
+//         const book = await Book.findByPk(bookId);
+//         if (book) {
+//             book.quantity = quantity;
+//             await book.save();
+//             res.json({ message: 'Book stock updated successfully', book });
+//         } else {
+//             res.status(404).json({ error: 'Book not found' });
+//         }
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };
 
 
 const deleteBook = async (req, res) => {
@@ -74,6 +74,32 @@ const deleteBook = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+const invalidateCache = async (bookId) => {
+    await axios.post(`http://localhost:3000/cache/invalidate`, { bookId });
+};
+
+const updateBookStock = async (req, res) => {
+    const bookId = req.params.id;
+    const { quantity } = req.body;
+
+    try {
+        await invalidateCache(bookId);
+        // Proceed to update all replicas
+        await syncWithReplicas(bookId, quantity);
+        res.json({ message: 'Book stock updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+// Helper to sync with replicas
+const syncWithReplicas = async (bookId, quantity) => {
+    const catalogReplicas = ['http://localhost:3001', 'http://localhost:3003'];
+    const promises = catalogReplicas.map(url => axios.put(`${url}/catalog/update/${bookId}`, { quantity }));
+    await Promise.all(promises);
+};
+
 
 module.exports = {
     search,
